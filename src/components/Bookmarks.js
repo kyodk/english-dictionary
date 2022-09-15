@@ -1,26 +1,38 @@
 import { useState, useEffect } from 'react';
 import { Link, Navigate } from 'react-router-dom';
 import { onAuthStateChanged } from 'firebase/auth';
-import { auth } from '../FirebaseConfig.js';
+import { db, auth } from '../FirebaseConfig.js';
+import { onSnapshot, collection } from 'firebase/firestore';
 import { Container, Row, Col, ListGroup } from 'react-bootstrap';
 import { BsArrowLeft } from 'react-icons/bs';
 import BookmarkListItem from './BookmarkListItem';
-import { firestore_getDoc } from '../Database.js';
 
 const Bookmarks = () => {
   const [user, setUser] = useState('');
   const [loading, setLoading] = useState(true);
   const [bookmarks, setBookmarks] = useState([]);
 
-  // useEffect(() => {
-  //   let posts = [];
-  //   onAuthStateChanged(auth, (user) => {
-  //     setUser(user);
-  //     setLoading(false);
-  //     const uid = user.uid;
-  //     firestore_getDoc(uid, posts, setBookmarks);
-  //   });
-  // }, [bookmarks]);
+  useEffect(() => {
+    onAuthStateChanged(auth, (user) => {
+      setUser(user);
+      setLoading(false);
+    });
+    if (!user) return;
+    const uid = user.uid;
+    const unsub = onSnapshot(collection(db, 'users', uid, 'bookmarks'), (snapshot) => {
+      let results = [];
+      snapshot.docs.forEach((doc) => {
+        const data = doc.data();
+        const id = doc.id;
+        results.push({
+          word: data.word,
+          id: id,
+        });
+      });
+      setBookmarks(results);
+    });
+    return () => unsub();
+  }, [user]);
 
   return (
     <>
