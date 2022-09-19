@@ -1,14 +1,16 @@
 import { useEffect, useState } from 'react';
-import { useInputContext } from '../App';
+import { useInputContext, useSaveContext } from '../App';
 import axios from 'axios';
+import { db, auth } from '../FirebaseConfig.js';
+import { collection, addDoc } from 'firebase/firestore';
 import { Container, Row, Col, Badge } from 'react-bootstrap';
-import { BsBookmarkHeart } from 'react-icons/bs';
-import { addBookmark } from '../Database.js';
+import { BsBookmarkHeart, BsBookmarkHeartFill } from 'react-icons/bs';
 
 axios.defaults.baseURL = 'https://api.dictionaryapi.dev/api/v2/entries/en';
 
 const Result = () => {
   const { inputValue } = useInputContext();
+  const { saved, setSaved } = useSaveContext();
   const [response, setResponse] = useState(null);
   const [error, setError] = useState('');
 
@@ -28,9 +30,13 @@ const Result = () => {
     }
   }, [inputValue]);
 
-  // const addBookmark = () => {
-  //   addedBookmark(inputValue);
-  // };
+  const addBookmark = async (inputValue) => {
+    setSaved(!saved);
+    const uid = auth.currentUser.uid;
+    await addDoc(collection(db, 'users', uid, 'bookmarks'), {
+      word: inputValue,
+    });
+  };
 
   if (error) {
     return <p className="py-5 text-center fs-3 fw-bold">No results found...</p>;
@@ -48,8 +54,13 @@ const Result = () => {
                     <h2 className="mb-3">{response[0].word}</h2>
                   </Col>
                   <Col sm="auto" className="fs-4">
-                    {/* <BsBookmarkHeart onClick={addBookmark} /> */}
-                    <BsBookmarkHeart onClick={() => addBookmark(inputValue)} />
+                    {saved ? (
+                      <BsBookmarkHeartFill />
+                    ) : (
+                      <BsBookmarkHeart
+                        onClick={() => addBookmark(inputValue)}
+                      />
+                    )}
                   </Col>
                 </Row>
                 <hr />

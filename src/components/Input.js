@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
-import { useInputContext } from '../App';
+import { useInputContext, useSaveContext } from '../App';
 import {
   Container,
   Row,
@@ -13,6 +13,7 @@ import { BsSearch } from 'react-icons/bs';
 const Input = () => {
   const [value, setValue] = useState('');
   const { inputValue, setInputValue } = useInputContext();
+  const { setSaved } = useSaveContext();
 
   const searchRef = useRef(null);
 
@@ -25,12 +26,14 @@ const Input = () => {
   const handleSubmit = () => {
     setInputValue(value);
     setValue('');
+    setSaved(false);
   };
 
   const handleInputKeyDown = (e) => {
     if (e.key === 'Enter') {
       setInputValue(value);
       setValue('');
+      setSaved(false);
     }
   };
 
