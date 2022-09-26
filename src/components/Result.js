@@ -1,8 +1,9 @@
 import { useEffect, useState } from 'react';
 import { useInputContext, useSaveContext } from '../App';
 import axios from 'axios';
+import { onAuthStateChanged } from 'firebase/auth';
 import { db, auth } from '../FirebaseConfig.js';
-import { collection, addDoc } from 'firebase/firestore';
+import { collection, addDoc, getDocs, query, where } from 'firebase/firestore';
 import { Container, Row, Col, Badge } from 'react-bootstrap';
 import { BsBookmarkHeart, BsBookmarkHeartFill } from 'react-icons/bs';
 
@@ -10,6 +11,7 @@ axios.defaults.baseURL = 'https://api.dictionaryapi.dev/api/v2/entries/en';
 
 const Result = () => {
   const { inputValue } = useInputContext();
+  const [user, setUser] = useState('');
   const { saved, setSaved } = useSaveContext();
   const [response, setResponse] = useState(null);
   const [error, setError] = useState('');
@@ -25,6 +27,12 @@ const Result = () => {
   };
 
   useEffect(() => {
+    onAuthStateChanged(auth, (user) => {
+      setUser(user);
+    });
+  }, []);
+
+  useEffect(() => {
     if (inputValue.length) {
       fetchData(inputValue);
     }
@@ -33,9 +41,14 @@ const Result = () => {
   const addBookmark = async (inputValue) => {
     setSaved(!saved);
     const uid = auth.currentUser.uid;
-    await addDoc(collection(db, 'users', uid, 'bookmarks'), {
-      word: inputValue,
-    });
+    const docRef = collection(db, 'users', uid, 'bookmarks');
+    const q = query(docRef, where('word', '==', inputValue));
+    const querySnapshot = await getDocs(q);
+    if (querySnapshot.size === 0) {
+      await addDoc(collection(db, 'users', uid, 'bookmarks'), {
+        word: inputValue,
+      });
+    }
   };
 
   if (error) {
@@ -53,15 +66,19 @@ const Result = () => {
                   <Col>
                     <h2 className="mb-3">{response[0].word}</h2>
                   </Col>
-                  <Col sm="auto" className="fs-4">
-                    {saved ? (
-                      <BsBookmarkHeartFill />
-                    ) : (
-                      <BsBookmarkHeart
-                        onClick={() => addBookmark(inputValue)}
-                      />
-                    )}
-                  </Col>
+                  {user ? (
+                    <Col sm="auto" className="fs-4">
+                      {saved ? (
+                        <BsBookmarkHeartFill />
+                      ) : (
+                        <BsBookmarkHeart
+                          onClick={() => addBookmark(inputValue)}
+                        />
+                      )}
+                    </Col>
+                  ) : (
+                    ''
+                  )}
                 </Row>
                 <hr />
                 <ol>
