@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useSaveContext } from '../App';
-import { Link, Navigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { onAuthStateChanged } from 'firebase/auth';
 import { db, auth } from '../FirebaseConfig.js';
 import { onSnapshot, collection } from 'firebase/firestore';
@@ -14,7 +14,9 @@ const Bookmarks = () => {
   const [bookmarks, setBookmarks] = useState([]);
   const { setSaved } = useSaveContext();
 
-  const linkTo = () => {
+  const navigate = useNavigate();
+
+  const backLinkClick = () => {
     setSaved(false);
   };
 
@@ -49,12 +51,16 @@ const Bookmarks = () => {
       {!loading && (
         <>
           {!user ? (
-            <Navigate to={`/`} />
+            navigate('/')
           ) : (
             <Container className="pt-5">
               <Row className="justify-content-center">
                 <Col lg="8">
-                  <Link to="/" onClick={linkTo} className="fs-4 text-black">
+                  <Link
+                    to="/"
+                    onClick={backLinkClick}
+                    className="fs-4 text-black"
+                  >
                     <BsArrowLeft />
                   </Link>
                   <ListGroup variant="flush" className="mt-3">
