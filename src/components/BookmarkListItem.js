@@ -30,7 +30,10 @@ const BookmarkListItem = ({ word, id }) => {
         >
           {word}
         </Link>
-        <BsBookmarkXFill className="fs-5" onClick={() => removeBookmark(id)} />
+        <BsBookmarkXFill
+          className="fs-5 cursor-pointer"
+          onClick={() => removeBookmark(id)}
+        />
       </div>
     </ListGroup.Item>
   );

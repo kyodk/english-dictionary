@@ -73,6 +73,7 @@ const Result = () => {
                       ) : (
                         <BsBookmarkHeart
                           onClick={() => addBookmark(inputValue)}
+                          className="cursor-pointer"
                         />
                       )}
                     </Col>
