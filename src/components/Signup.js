@@ -19,21 +19,19 @@ const Signup = () => {
   const [validated, setValidated] = useState(false);
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
-    try {
-      await createUserWithEmailAndPassword(auth, authEmail, authPassword);
-    } catch (err) {
-      alert('Please enter a valid email address and password');
-    }
-  };
-
-  const handleBlur = (e) => {
     const form = e.currentTarget;
-    if (form.checkValidity() === false) {
+    e.preventDefault();
+    setValidated(true);
+    if (form.checkValidity()) {
+      try {
+        await createUserWithEmailAndPassword(auth, authEmail, authPassword);
+      } catch (err) {
+        alert('Please enter a valid email address and password');
+      }
+    } else {
       e.preventDefault();
       e.stopPropagation();
     }
-    setValidated(true);
   };
 
   return (
@@ -70,7 +68,6 @@ const Signup = () => {
                     placeholder="Password"
                     autoComplete="off"
                     onChange={authPasswordInput}
-                    onBlur={handleBlur}
                     value={authPassword}
                     required
                     pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"

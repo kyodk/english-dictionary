@@ -19,21 +19,19 @@ const Login = () => {
   const [validated, setValidated] = useState(false);
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
-    try {
-      await signInWithEmailAndPassword(auth, authEmail, authPassword);
-    } catch (error) {
-      alert('Incorrect email address or password. Please try again.');
-    }
-  };
-
-  const handleBlur = (e) => {
     const form = e.currentTarget;
-    if (form.checkValidity() === false) {
+    e.preventDefault();
+    setValidated(true);
+    if (form.checkValidity()) {
+      try {
+        await signInWithEmailAndPassword(auth, authEmail, authPassword);
+      } catch (error) {
+        alert('Incorrect email address or password. Please try again.');
+      }
+    } else {
       e.preventDefault();
       e.stopPropagation();
     }
-    setValidated(true);
   };
 
   return (
@@ -70,7 +68,6 @@ const Login = () => {
                     placeholder="Password"
                     autoComplete="off"
                     onChange={authPasswordInput}
-                    onBlur={handleBlur}
                     value={authPassword}
                     required
                     pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
