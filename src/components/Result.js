@@ -3,7 +3,14 @@ import { useInputContext, useSaveContext } from '../App';
 import axios from 'axios';
 import { onAuthStateChanged } from 'firebase/auth';
 import { db, auth } from '../FirebaseConfig.js';
-import { collection, addDoc, getDocs, query, where } from 'firebase/firestore';
+import {
+  onSnapshot,
+  collection,
+  addDoc,
+  getDocs,
+  query,
+  where,
+} from 'firebase/firestore';
 import { Container, Row, Col, Badge } from 'react-bootstrap';
 import { BsBookmarkHeart, BsBookmarkHeartFill } from 'react-icons/bs';
 
@@ -15,6 +22,8 @@ const Result = () => {
   const { saved, setSaved } = useSaveContext();
   const [response, setResponse] = useState(null);
   const [error, setError] = useState('');
+  const [bookmarks, setBookmarks] = useState([]);
+  const [bookmarked, setbookmarked] = useState(false);
 
   const fetchData = async (word) => {
     try {
@@ -30,13 +39,37 @@ const Result = () => {
     onAuthStateChanged(auth, (user) => {
       setUser(user);
     });
-  }, []);
+
+    if (!user) return;
+    const uid = user.uid;
+    const unsub = onSnapshot(
+      collection(db, 'users', uid, 'bookmarks'),
+      (snapshot) => {
+        let results = [];
+        snapshot.docs.forEach((doc) => {
+          const data = doc.data();
+          const id = doc.id;
+          results.push({
+            word: data.word,
+            id: id,
+          });
+        });
+        setBookmarks(results);
+      }
+    );
+    return () => unsub();
+  }, [user]);
 
   useEffect(() => {
     if (inputValue.length) {
       fetchData(inputValue);
     }
-  }, [inputValue]);
+
+    const bookmarked = bookmarks.some(
+      (bookmark) => bookmark.word === inputValue
+    );
+    setbookmarked(bookmarked);
+  }, [inputValue, bookmarks]);
 
   const addBookmark = async (inputValue) => {
     setSaved(!saved);
@@ -68,7 +101,7 @@ const Result = () => {
                   </Col>
                   {user ? (
                     <Col sm="auto" className="fs-4">
-                      {saved ? (
+                      {saved || bookmarked ? (
                         <BsBookmarkHeartFill />
                       ) : (
                         <BsBookmarkHeart

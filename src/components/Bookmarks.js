@@ -13,6 +13,7 @@ const Bookmarks = () => {
   const [loading, setLoading] = useState(true);
   const [bookmarks, setBookmarks] = useState([]);
   const { setSaved } = useSaveContext();
+  const [numOfElement, setnumOfElement] = useState(false);
 
   const navigate = useNavigate();
 
@@ -43,8 +44,12 @@ const Bookmarks = () => {
         setBookmarks(results);
       }
     );
+
+    const numOfElement = Object.keys(bookmarks).length === 0;
+    setnumOfElement(numOfElement);
+
     return () => unsub();
-  }, [user]);
+  }, [user, bookmarks]);
 
   return (
     <>
@@ -63,15 +68,21 @@ const Bookmarks = () => {
                   >
                     <BsArrowLeft />
                   </Link>
-                  <ListGroup variant="flush" className="mt-3">
-                    {bookmarks.map((bookmark) => (
-                      <BookmarkListItem
-                        word={bookmark.word}
-                        key={bookmark.id}
-                        id={bookmark.id}
-                      />
-                    ))}
-                  </ListGroup>
+                  {numOfElement ? (
+                    <p className="py-5 text-center fs-3 fw-bold">
+                      There ane no bookmarks...
+                    </p>
+                  ) : (
+                    <ListGroup variant="flush" className="mt-3">
+                      {bookmarks.map((bookmark) => (
+                        <BookmarkListItem
+                          word={bookmark.word}
+                          key={bookmark.id}
+                          id={bookmark.id}
+                        />
+                      ))}
+                    </ListGroup>
+                  )}
                 </Col>
               </Row>
             </Container>
