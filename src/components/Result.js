@@ -69,7 +69,7 @@ const Result = () => {
       (bookmark) => bookmark.word === inputValue
     );
     setbookmarked(bookmarked);
-  }, [inputValue, bookmarks]);
+  }, [inputValue]);
 
   const addBookmark = async (inputValue) => {
     setSaved(!saved);

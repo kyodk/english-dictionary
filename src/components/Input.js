@@ -24,13 +24,15 @@ const Input = () => {
   const handleInputChange = (e) => setValue(e.target.value);
 
   const handleSubmit = () => {
-    setInputValue(value);
-    setValue('');
-    setSaved(false);
+    if (!(value === '')) {
+      setInputValue(value);
+      setValue('');
+      setSaved(false);
+    }
   };
 
   const handleInputKeyDown = (e) => {
-    if (e.key === 'Enter') {
+    if (e.key === 'Enter' && !(value === '')) {
       setInputValue(value);
       setValue('');
       setSaved(false);

@@ -26,7 +26,9 @@ const Login = () => {
       try {
         await signInWithEmailAndPassword(auth, authEmail, authPassword);
       } catch (error) {
-        alert('Incorrect email address or password. Please try again.');
+        alert(
+          'Email address / password do not match any existing accounts. Please try again.'
+        );
       }
     } else {
       e.preventDefault();
@@ -56,9 +58,10 @@ const Login = () => {
                     value={authEmail}
                     ref={authRef}
                     required
+                    pattern="[\w\-._]+@[\w\-._]+\.[A-Za-z]+"
                   />
                   <Form.Control.Feedback type="invalid">
-                    Must contain the @ symbol.
+                    Please enter a valid email address.
                   </Form.Control.Feedback>
                 </Form.Group>
                 <Form.Group className="mb-5" controlId="formBasicPassword">

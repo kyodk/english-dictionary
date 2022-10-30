@@ -56,9 +56,10 @@ const Signup = () => {
                     value={authEmail}
                     ref={authRef}
                     required
+                    pattern="[\w\-._]+@[\w\-._]+\.[A-Za-z]+"
                   />
                   <Form.Control.Feedback type="invalid">
-                    Must contain the @ symbol.
+                    Please enter a valid email address.
                   </Form.Control.Feedback>
                 </Form.Group>
                 <Form.Group className="mb-5" controlId="formBasicPassword">
