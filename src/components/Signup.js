@@ -26,7 +26,7 @@ const Signup = () => {
       try {
         await createUserWithEmailAndPassword(auth, authEmail, authPassword);
       } catch (err) {
-        alert('Please enter a valid email address and password');
+        alert('Email address already exists');
       }
     } else {
       e.preventDefault();

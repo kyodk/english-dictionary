@@ -9,6 +9,7 @@ import {
   Button,
 } from 'react-bootstrap';
 import { BsSearch } from 'react-icons/bs';
+import dompurify from 'dompurify';
 
 const Input = () => {
   const [value, setValue] = useState('');
@@ -21,7 +22,10 @@ const Input = () => {
     searchRef.current.focus();
   }, []);
 
-  const handleInputChange = (e) => setValue(e.target.value);
+  const handleInputChange = (e) => {
+    let htmlString = e.target.value;
+    setValue(dompurify.sanitize(htmlString, { USE_PROFILES: { html: true } }));
+  };
 
   const handleSubmit = () => {
     if (!(value === '')) {
