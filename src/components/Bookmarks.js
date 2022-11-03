@@ -1,9 +1,9 @@
 import { useState, useEffect } from 'react';
-import { useSaveContext } from '../App';
 import { Link, useNavigate } from 'react-router-dom';
-import { onAuthStateChanged } from 'firebase/auth';
+import { useSaveContext } from '../App';
 import { db, auth } from '../FirebaseConfig.js';
-import { onSnapshot, collection } from 'firebase/firestore';
+import { onAuthStateChanged } from 'firebase/auth';
+import { collection, onSnapshot } from 'firebase/firestore';
 import { Container, Row, Col, ListGroup } from 'react-bootstrap';
 import { BsArrowLeft } from 'react-icons/bs';
 import BookmarkListItem from './BookmarkListItem';

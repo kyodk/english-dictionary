@@ -1,9 +1,8 @@
 import { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useInputContext } from '../App';
-import { onAuthStateChanged, signOut } from 'firebase/auth';
 import { auth } from '../FirebaseConfig.js';
-import { useNavigate } from 'react-router-dom';
+import { onAuthStateChanged, signOut } from 'firebase/auth';
 import { Container, Navbar, Button } from 'react-bootstrap';
 
 const Header = () => {

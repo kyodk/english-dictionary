@@ -1,15 +1,15 @@
-import { useEffect, useState } from 'react';
-import { useInputContext, useSaveContext } from '../App';
+import { useState, useEffect } from 'react';
 import axios from 'axios';
-import { onAuthStateChanged } from 'firebase/auth';
+import { useInputContext, useSaveContext } from '../App';
 import { db, auth } from '../FirebaseConfig.js';
+import { onAuthStateChanged } from 'firebase/auth';
 import {
-  onSnapshot,
   collection,
   addDoc,
-  getDocs,
   query,
   where,
+  getDocs,
+  onSnapshot,
 } from 'firebase/firestore';
 import { Container, Row, Col, Badge } from 'react-bootstrap';
 import { BsBookmarkHeart, BsBookmarkHeartFill } from 'react-icons/bs';
@@ -69,7 +69,7 @@ const Result = () => {
       (bookmark) => bookmark.word === inputValue
     );
     setbookmarked(bookmarked);
-  }, [inputValue]);
+  }, [inputValue, bookmarks]);
 
   const addBookmark = async (inputValue) => {
     setSaved(!saved);

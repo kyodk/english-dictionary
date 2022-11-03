@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Link, Navigate } from 'react-router-dom';
-import { createUserWithEmailAndPassword } from 'firebase/auth';
 import { auth } from '../FirebaseConfig.js';
+import { createUserWithEmailAndPassword } from 'firebase/auth';
 import { Container, Row, Col, Form, Button } from 'react-bootstrap';
 import { BsArrowLeft } from 'react-icons/bs';
 import useAuthentication from '../hooks/useAuthentication';
