@@ -11,7 +11,7 @@ import {
   getDocs,
   onSnapshot,
 } from 'firebase/firestore';
-import { Container, Row, Col, Badge } from 'react-bootstrap';
+import { Container, Row, Col, Badge, Placeholder } from 'react-bootstrap';
 import { BsBookmarkHeart, BsBookmarkHeartFill } from 'react-icons/bs';
 
 axios.defaults.baseURL = 'https://api.dictionaryapi.dev/api/v2/entries/en';
@@ -22,16 +22,20 @@ const Result = () => {
   const { saved, setSaved } = useSaveContext();
   const [response, setResponse] = useState(null);
   const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
   const [bookmarks, setBookmarks] = useState([]);
   const [bookmarked, setbookmarked] = useState(false);
 
   const fetchData = async (word) => {
     try {
+      setLoading(true);
       const res = await axios(`/${word}`);
       setResponse(res.data);
       setError(null);
     } catch (err) {
       setError(err);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -70,6 +74,27 @@ const Result = () => {
     );
     setbookmarked(bookmarked);
   }, [inputValue, bookmarks]);
+
+  if (loading) {
+    return (
+      <Row className="justify-content-center mt-5">
+        <Col lg="6">
+          <Placeholder as="p" animation="glow">
+            <Placeholder xs={12} bg="secondary" className="p-3 rounded-3" />
+          </Placeholder>
+          <Placeholder as="p" animation="glow">
+            <Placeholder xs={12} bg="secondary" className="p-5 rounded-3" />
+          </Placeholder>
+          <Placeholder as="p" animation="glow">
+            <Placeholder xs={12} bg="secondary" className="p-3 rounded-3" />
+          </Placeholder>
+          <Placeholder as="p" animation="glow">
+            <Placeholder xs={12} bg="secondary" className="p-5 rounded-3" />
+          </Placeholder>
+        </Col>
+      </Row>
+    );
+  }
 
   const addBookmark = async (inputValue) => {
     setSaved(!saved);
