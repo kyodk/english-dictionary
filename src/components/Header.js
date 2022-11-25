@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { useInputContext } from '../App';
+import { useInputContext } from '../contexts/InputContext';
 import { auth } from '../FirebaseConfig.js';
 import { onAuthStateChanged, signOut } from 'firebase/auth';
 import { Container, Navbar, Button } from 'react-bootstrap';

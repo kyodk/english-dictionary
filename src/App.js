@@ -1,37 +1,18 @@
-import React, { useState, useEffect, useContext } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Header from './components/Header';
 import Search from './components/Search';
 import Bookmarks from './components/Bookmarks';
 import Login from './components/Login';
 import Signup from './components/Signup';
+import { InputContextProvider } from './contexts/InputContext';
+import { SaveContextProvider } from './contexts/SaveContext';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
 
-export const InputContext = React.createContext();
-export const useInputContext = () => useContext(InputContext);
-export const SaveContext = React.createContext();
-export const useSaveContext = () => useContext(SaveContext);
-
 const App = () => {
-  const [inputValue, setInputValue] = useState('');
-  const [saved, setSaved] = useState(false);
-  const value = {
-    inputValue,
-    setInputValue,
-  };
-  const savedValue = {
-    saved,
-    setSaved,
-  };
-
-  useEffect(() => {
-    setSaved(false);
-  }, []);
-
   return (
-    <InputContext.Provider value={value}>
-      <SaveContext.Provider value={savedValue}>
+    <InputContextProvider>
+      <SaveContextProvider>
         <BrowserRouter>
           <Header />
           <main>
@@ -43,8 +24,8 @@ const App = () => {
             </Routes>
           </main>
         </BrowserRouter>
-      </SaveContext.Provider>
-    </InputContext.Provider>
+      </SaveContextProvider>
+    </InputContextProvider>
   );
 };
 

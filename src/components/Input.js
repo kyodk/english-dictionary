@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
-import { useInputContext, useSaveContext } from '../App';
+import { useInputContext } from '../contexts/InputContext';
+import { useSaveContext } from '../contexts/SaveContext';
 import {
   Container,
   Row,

@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
-import { useInputContext, useSaveContext } from '../App';
+import { useInputContext } from '../contexts/InputContext';
+import { useSaveContext } from '../contexts/SaveContext';
 import { db, auth } from '../FirebaseConfig.js';
 import { doc, deleteDoc } from 'firebase/firestore';
 import { ListGroup } from 'react-bootstrap';
