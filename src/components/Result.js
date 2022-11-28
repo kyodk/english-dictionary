@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import axios from 'axios';
+import dictionaryapi from '../api/dictionaryapi';
 import { useInputContext } from '../contexts/InputContext';
 import { useSaveContext } from '../contexts/SaveContext';
 import { db, auth } from '../FirebaseConfig.js';
@@ -15,8 +15,6 @@ import {
 import { Container, Row, Col, Badge, Placeholder } from 'react-bootstrap';
 import { BsBookmarkHeart, BsBookmarkHeartFill } from 'react-icons/bs';
 
-axios.defaults.baseURL = 'https://api.dictionaryapi.dev/api/v2/entries/en';
-
 const Result = () => {
   const { inputValue } = useInputContext();
   const [user, setUser] = useState('');
@@ -30,7 +28,7 @@ const Result = () => {
   const fetchData = async (word) => {
     try {
       setLoading(true);
-      const res = await axios(`/${word}`);
+      const res = await dictionaryapi(`/${word}`);
       setResponse(res.data);
       setError(null);
     } catch (err) {
