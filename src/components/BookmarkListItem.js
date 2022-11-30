@@ -1,19 +1,14 @@
 import { Link } from 'react-router-dom';
 import { useInputContext } from '../contexts/InputContext';
 import { useSaveContext } from '../contexts/SaveContext';
-import { db, auth } from '../FirebaseConfig.js';
-import { doc, deleteDoc } from 'firebase/firestore';
+import useBookmark from '../hooks/useBookmark';
 import { ListGroup } from 'react-bootstrap';
 import { BsBookmarkXFill } from 'react-icons/bs';
 
 const BookmarkListItem = ({ word, id }) => {
   const { setInputValue } = useInputContext();
   const { setSaved } = useSaveContext();
-
-  const removeBookmark = async (id) => {
-    const uid = auth.currentUser.uid;
-    await deleteDoc(doc(db, 'users', uid, 'bookmarks', id));
-  };
+  const { removeBookmark } = useBookmark();
 
   const linkToHome = (word) => {
     setInputValue(word);
