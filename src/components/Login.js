@@ -1,19 +1,20 @@
 import { useState } from 'react';
 import { Link, Navigate } from 'react-router-dom';
+import { useAuthContext } from '../contexts/AuthContext';
+import useAuthentication from '../hooks/useAuthentication';
 import { auth } from '../FirebaseConfig.js';
 import { signInWithEmailAndPassword } from 'firebase/auth';
 import { Container, Row, Col, Form, Button } from 'react-bootstrap';
 import { BsArrowLeft } from 'react-icons/bs';
-import useAuthentication from '../hooks/useAuthentication';
 
 const Login = () => {
+  const { user } = useAuthContext();
   const {
     authEmail,
     authPassword,
     authEmailInput,
     authPasswordInput,
     authRef,
-    user,
   } = useAuthentication();
 
   const [validated, setValidated] = useState(false);

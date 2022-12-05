@@ -1,17 +1,16 @@
 import { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import { useAuthContext } from '../contexts/AuthContext';
 import { useSaveContext } from '../contexts/SaveContext';
-import { db, auth } from '../FirebaseConfig.js';
-import { onAuthStateChanged } from 'firebase/auth';
+import { db } from '../FirebaseConfig.js';
 import { collection, onSnapshot } from 'firebase/firestore';
 import { Container, Row, Col, ListGroup } from 'react-bootstrap';
 import { BsArrowLeft } from 'react-icons/bs';
 import BookmarkListItem from './BookmarkListItem';
 
 const Bookmarks = () => {
-  const [user, setUser] = useState('');
-  const [loading, setLoading] = useState(true);
   const [bookmarks, setBookmarks] = useState([]);
+  const { user, loading } = useAuthContext();
   const { setSaved } = useSaveContext();
 
   const navigate = useNavigate();
@@ -21,11 +20,6 @@ const Bookmarks = () => {
   };
 
   useEffect(() => {
-    onAuthStateChanged(auth, (user) => {
-      setUser(user);
-      setLoading(false);
-    });
-
     if (!user) return;
     const uid = user.uid;
     const unsub = onSnapshot(

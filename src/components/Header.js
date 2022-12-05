@@ -1,19 +1,13 @@
-import { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import { useAuthContext } from '../contexts/AuthContext';
 import { useInputContext } from '../contexts/InputContext';
 import { auth } from '../FirebaseConfig.js';
-import { onAuthStateChanged, signOut } from 'firebase/auth';
+import { signOut } from 'firebase/auth';
 import { Container, Navbar, Button } from 'react-bootstrap';
 
 const Header = () => {
+  const { user } = useAuthContext();
   const { setInputValue } = useInputContext();
-  const [user, setUser] = useState('');
-
-  useEffect(() => {
-    onAuthStateChanged(auth, (user) => {
-      setUser(user);
-    });
-  }, []);
 
   const navigate = useNavigate();
 

@@ -1,6 +1,4 @@
 import { useState, useEffect, useRef } from 'react';
-import { auth } from '../FirebaseConfig.js';
-import { onAuthStateChanged } from 'firebase/auth';
 
 const useAuthentication = () => {
   const [authEmail, setAuthEmail] = useState('');
@@ -15,21 +13,12 @@ const useAuthentication = () => {
     authRef.current.focus();
   }, []);
 
-  const [user, setUser] = useState('');
-
-  useEffect(() => {
-    onAuthStateChanged(auth, (user) => {
-      setUser(user);
-    });
-  }, []);
-
   return {
     authEmail,
     authPassword,
     authEmailInput,
     authPasswordInput,
     authRef,
-    user,
   };
 };
 

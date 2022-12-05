@@ -1,17 +1,17 @@
 import { useState, useEffect } from 'react';
 import dictionaryapi from '../api/dictionaryapi';
+import { useAuthContext } from '../contexts/AuthContext';
 import { useInputContext } from '../contexts/InputContext';
 import { useSaveContext } from '../contexts/SaveContext';
 import useBookmark from '../hooks/useBookmark';
-import { db, auth } from '../FirebaseConfig.js';
-import { onAuthStateChanged } from 'firebase/auth';
+import { db } from '../FirebaseConfig.js';
 import { collection, onSnapshot } from 'firebase/firestore';
 import { Container, Row, Col, Badge, Placeholder } from 'react-bootstrap';
 import { BsBookmarkHeart, BsBookmarkHeartFill } from 'react-icons/bs';
 
 const Result = () => {
+  const { user } = useAuthContext();
   const { inputValue } = useInputContext();
-  const [user, setUser] = useState('');
   const { saved } = useSaveContext();
   const [response, setResponse] = useState(null);
   const [error, setError] = useState('');
@@ -34,10 +34,6 @@ const Result = () => {
   };
 
   useEffect(() => {
-    onAuthStateChanged(auth, (user) => {
-      setUser(user);
-    });
-
     if (!user) return;
     const uid = user.uid;
     const unsub = onSnapshot(
