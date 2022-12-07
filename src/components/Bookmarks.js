@@ -1,44 +1,21 @@
-import { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuthContext } from '../contexts/AuthContext';
 import { useSaveContext } from '../contexts/SaveContext';
-import { db } from '../FirebaseConfig.js';
-import { collection, onSnapshot } from 'firebase/firestore';
+import useGetRealtimeUpdates from '../hooks/useGetRealtimeUpdates';
 import { Container, Row, Col, ListGroup } from 'react-bootstrap';
 import { BsArrowLeft } from 'react-icons/bs';
 import BookmarkListItem from './BookmarkListItem';
 
 const Bookmarks = () => {
-  const [bookmarks, setBookmarks] = useState([]);
   const { user, loading } = useAuthContext();
   const { setSaved } = useSaveContext();
+  const { bookmarks } = useGetRealtimeUpdates();
 
   const navigate = useNavigate();
 
   const backLinkClick = () => {
     setSaved(false);
   };
-
-  useEffect(() => {
-    if (!user) return;
-    const uid = user.uid;
-    const unsub = onSnapshot(
-      collection(db, 'users', uid, 'bookmarks'),
-      (snapshot) => {
-        let results = [];
-        snapshot.docs.forEach((doc) => {
-          const data = doc.data();
-          const id = doc.id;
-          results.push({
-            word: data.word,
-            id: id,
-          });
-        });
-        setBookmarks(results);
-      }
-    );
-    return () => unsub();
-  }, [user]);
 
   return (
     <>

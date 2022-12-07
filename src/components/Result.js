@@ -4,8 +4,7 @@ import { useAuthContext } from '../contexts/AuthContext';
 import { useInputContext } from '../contexts/InputContext';
 import { useSaveContext } from '../contexts/SaveContext';
 import useBookmark from '../hooks/useBookmark';
-import { db } from '../FirebaseConfig.js';
-import { collection, onSnapshot } from 'firebase/firestore';
+import useGetRealtimeUpdates from '../hooks/useGetRealtimeUpdates';
 import { Container, Row, Col, Badge, Placeholder } from 'react-bootstrap';
 import { BsBookmarkHeart, BsBookmarkHeartFill } from 'react-icons/bs';
 
@@ -13,12 +12,12 @@ const Result = () => {
   const { user } = useAuthContext();
   const { inputValue } = useInputContext();
   const { saved } = useSaveContext();
+  const { addBookmark } = useBookmark();
+  const { bookmarks } = useGetRealtimeUpdates();
   const [response, setResponse] = useState(null);
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
-  const [bookmarks, setBookmarks] = useState([]);
   const [bookmarked, setbookmarked] = useState(false);
-  const { addBookmark } = useBookmark();
 
   const fetchData = async (word) => {
     try {
@@ -34,31 +33,9 @@ const Result = () => {
   };
 
   useEffect(() => {
-    if (!user) return;
-    const uid = user.uid;
-    const unsub = onSnapshot(
-      collection(db, 'users', uid, 'bookmarks'),
-      (snapshot) => {
-        let results = [];
-        snapshot.docs.forEach((doc) => {
-          const data = doc.data();
-          const id = doc.id;
-          results.push({
-            word: data.word,
-            id: id,
-          });
-        });
-        setBookmarks(results);
-      }
-    );
-    return () => unsub();
-  }, [user]);
-
-  useEffect(() => {
     if (inputValue.length) {
       fetchData(inputValue);
     }
-
     const bookmarked = bookmarks.some(
       (bookmark) => bookmark.word === inputValue
     );
