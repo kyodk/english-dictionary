@@ -1,18 +1,12 @@
 import { useState, useEffect } from 'react';
 import dictionaryapi from '../api/dictionaryapi';
-import { useAuthContext } from '../contexts/AuthContext';
 import { useInputContext } from '../contexts/InputContext';
-import { useSaveContext } from '../contexts/SaveContext';
-import useBookmark from '../hooks/useBookmark';
 import useGetRealtimeUpdates from '../hooks/useGetRealtimeUpdates';
-import { Container, Row, Col, Badge, Placeholder } from 'react-bootstrap';
-import { BsBookmarkHeart, BsBookmarkHeartFill } from 'react-icons/bs';
+import { Container, Row, Col, Placeholder } from 'react-bootstrap';
+import ResultItem from './ResultItem';
 
 const Result = () => {
-  const { user } = useAuthContext();
   const { inputValue } = useInputContext();
-  const { saved } = useSaveContext();
-  const { addBookmark } = useBookmark();
   const { bookmarks } = useGetRealtimeUpdates();
   const [response, setResponse] = useState(null);
   const [error, setError] = useState('');
@@ -72,55 +66,7 @@ const Result = () => {
       {response && (
         <section>
           <Container className="py-5">
-            <Row className="justify-content-center">
-              <Col lg="8">
-                <Row className="align-items-center">
-                  <Col>
-                    <h2 className="mb-3">{response[0].word}</h2>
-                  </Col>
-                  {user ? (
-                    <Col sm="auto" className="fs-4">
-                      {saved || bookmarked ? (
-                        <BsBookmarkHeartFill />
-                      ) : (
-                        <BsBookmarkHeart
-                          onClick={() => addBookmark(inputValue)}
-                          className="cursor-pointer"
-                        />
-                      )}
-                    </Col>
-                  ) : (
-                    ''
-                  )}
-                </Row>
-                <hr />
-                <ol>
-                  {response.map((val) =>
-                    val.meanings.map((means, index) => (
-                      <li key={index} className="mb-4">
-                        <Badge
-                          key={means.partOfSpeech}
-                          bg="dark"
-                          className="mt-4 mb-4 fs-6"
-                        >
-                          {means.partOfSpeech}
-                        </Badge>
-                        {means.definitions.map((def, index) => (
-                          <ul key={index} className="list-unstyled mb-3">
-                            <li className="fw-bold">{def.definition}</li>
-                            {def.example && (
-                              <li className="fw-light fst-italic">
-                                {def.example}
-                              </li>
-                            )}
-                          </ul>
-                        ))}
-                      </li>
-                    ))
-                  )}
-                </ol>
-              </Col>
-            </Row>
+            <ResultItem response={response} bookmarked={bookmarked} />
           </Container>
         </section>
       )}
