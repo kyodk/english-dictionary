@@ -1,7 +1,6 @@
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { Link, Navigate } from 'react-router-dom';
 import { useAuthContext } from '../contexts/AuthContext';
-import useAuthentication from '../hooks/useAuthentication';
 import { auth } from '../FirebaseConfig.js';
 import { createUserWithEmailAndPassword } from 'firebase/auth';
 import { Container, Row, Col, Form, Button } from 'react-bootstrap';
@@ -9,14 +8,8 @@ import { BsArrowLeft } from 'react-icons/bs';
 
 const Signup = () => {
   const { user } = useAuthContext();
-  const {
-    authEmail,
-    authPassword,
-    authEmailInput,
-    authPasswordInput,
-    authRef,
-  } = useAuthentication();
-
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const [validated, setValidated] = useState(false);
 
   const handleSubmit = async (e) => {
@@ -25,7 +18,7 @@ const Signup = () => {
     setValidated(true);
     if (form.checkValidity()) {
       try {
-        await createUserWithEmailAndPassword(auth, authEmail, authPassword);
+        await createUserWithEmailAndPassword(auth, email, password);
       } catch (err) {
         alert('Email address already exists');
       }
@@ -34,6 +27,11 @@ const Signup = () => {
       e.stopPropagation();
     }
   };
+
+  const authRef = useRef(null);
+  useEffect(() => {
+    authRef.current.focus();
+  }, []);
 
   return (
     <>
@@ -53,8 +51,8 @@ const Signup = () => {
                   <Form.Control
                     type="email"
                     placeholder="Enter email"
-                    onChange={authEmailInput}
-                    value={authEmail}
+                    onChange={(e) => setEmail(e.target.value)}
+                    value={email}
                     ref={authRef}
                     required
                     pattern="[\w\-._]+@[\w\-._]+\.[A-Za-z]+"
@@ -69,8 +67,8 @@ const Signup = () => {
                     type="password"
                     placeholder="Password"
                     autoComplete="off"
-                    onChange={authPasswordInput}
-                    value={authPassword}
+                    onChange={(e) => setPassword(e.target.value)}
+                    value={password}
                     required
                     pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
                   />
