@@ -14,10 +14,11 @@ export const AuthContextProvider = ({ children }) => {
   };
 
   useEffect(() => {
-    onAuthStateChanged(auth, (user) => {
+    const unsub = onAuthStateChanged(auth, (user) => {
       setUser(user);
       setLoading(false);
     });
+    return () => unsub();
   }, []);
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
