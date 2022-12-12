@@ -33,6 +33,7 @@ const Result = () => {
     const bookmarked = bookmarks.some(
       (bookmark) => bookmark.word === inputValue
     );
+    setLoading(false)
     setbookmarked(bookmarked);
   }, [inputValue, bookmarks]);
 
