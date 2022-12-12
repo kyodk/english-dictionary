@@ -17,10 +17,9 @@ const Input = () => {
   const { inputValue, setInputValue } = useInputContext();
   const { setSaved } = useSaveContext();
 
-  const searchRef = useRef(null);
-
+  const inputRef = useRef(null);
   useEffect(() => {
-    searchRef.current.focus();
+    inputRef.current.focus();
   }, []);
 
   const handleInputChange = (e) => {
@@ -56,7 +55,7 @@ const Input = () => {
                 placeholder="Search..."
                 onChange={handleInputChange}
                 value={value}
-                ref={searchRef}
+                ref={inputRef}
                 onKeyDown={handleInputKeyDown}
               />
               <Button variant="outline-light" onClick={handleSubmit}>

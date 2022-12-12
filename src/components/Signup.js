@@ -28,9 +28,9 @@ const Signup = () => {
     }
   };
 
-  const authRef = useRef(null);
+  const inputRef = useRef(null);
   useEffect(() => {
-    authRef.current.focus();
+    inputRef.current.focus();
   }, []);
 
   return (
@@ -53,7 +53,7 @@ const Signup = () => {
                     placeholder="Enter email"
                     onChange={(e) => setEmail(e.target.value)}
                     value={email}
-                    ref={authRef}
+                    ref={inputRef}
                     required
                     pattern="[\w\-._]+@[\w\-._]+\.[A-Za-z]+"
                   />
