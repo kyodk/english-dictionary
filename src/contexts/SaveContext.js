@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useContext } from 'react';
 
 const SaveContext = React.createContext();
 export const useSaveContext = () => useContext(SaveContext);
@@ -10,10 +10,6 @@ export const SaveContextProvider = ({ children }) => {
     saved,
     setSaved,
   };
-
-  useEffect(() => {
-    setSaved(false);
-  }, []);
 
   return <SaveContext.Provider value={value}>{children}</SaveContext.Provider>;
 };
