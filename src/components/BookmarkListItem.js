@@ -1,18 +1,15 @@
 import { Link } from 'react-router-dom';
 import { useInputContext } from '../contexts/InputContext';
-import { useSaveContext } from '../contexts/SaveContext';
 import useBookmark from '../hooks/useBookmark';
 import { ListGroup } from 'react-bootstrap';
 import { BsBookmarkXFill } from 'react-icons/bs';
 
 const BookmarkListItem = ({ word, id }) => {
   const { setInputValue } = useInputContext();
-  const { setSaved } = useSaveContext();
   const { removeBookmark } = useBookmark();
 
   const linkToHome = (word) => {
     setInputValue(word);
-    setSaved(true);
   };
 
   return (
