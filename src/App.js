@@ -1,7 +1,7 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Header from './components/Header';
 import Search from './components/Search';
-import Bookmarks from './components/Bookmarks';
+import BookmarkList from './components/BookmarkList';
 import Login from './components/Login';
 import Signup from './components/Signup';
 import { AuthContextProvider } from './contexts/AuthContext';
@@ -20,7 +20,7 @@ const App = () => {
             <main>
               <Routes>
                 <Route path="/" element={<Search />} />
-                <Route path="/bookmarks" element={<Bookmarks />} />
+                <Route path="/bookmarklist" element={<BookmarkList />} />
                 <Route path="/login" element={<Login />} />
                 <Route path="/signup" element={<Signup />} />
               </Routes>

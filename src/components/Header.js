@@ -25,7 +25,7 @@ const Header = () => {
       <Navbar bg="dark py-3">
         <Container>
           {user ? (
-            <Link to="/bookmarks" className="ms-auto">
+            <Link to="/bookmarklist" className="ms-auto">
               <Button variant="outline-light" onClick={btnClick}>
                 Bookmarks
               </Button>

@@ -6,7 +6,7 @@ import { Container, Row, Col, ListGroup } from 'react-bootstrap';
 import { BsArrowLeft } from 'react-icons/bs';
 import BookmarkListItem from './BookmarkListItem';
 
-const Bookmarks = () => {
+const BookmarkList = () => {
   const { user, loading } = useAuthContext();
   const { setSaved } = useSaveContext();
   const { bookmarks } = useGetRealtimeUpdates();
@@ -53,4 +53,4 @@ const Bookmarks = () => {
   );
 };
 
-export default Bookmarks;
+export default BookmarkList;
