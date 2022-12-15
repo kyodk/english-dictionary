@@ -11,11 +11,11 @@ import {
 } from 'firebase/firestore';
 
 const useBookmark = () => {
-  const { saved, setSaved } = useSaveContext();
+  const { setSaved } = useSaveContext();
   const uid = auth.currentUser.uid;
 
   const addBookmark = async (inputValue) => {
-    setSaved(saved);
+    setSaved(true);
     const docRef = collection(db, 'users', uid, 'bookmarks');
     const q = query(docRef, where('word', '==', inputValue));
     const querySnapshot = await getDocs(q);
