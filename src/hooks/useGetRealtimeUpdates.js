@@ -26,7 +26,7 @@ const useGetRealtimeUpdates = () => {
       }
     );
     return () => unsub();
-  }, [user]);
+  }, []);
   return { bookmarks };
 };
 
