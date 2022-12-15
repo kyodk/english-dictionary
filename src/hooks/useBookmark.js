@@ -12,10 +12,10 @@ import {
 
 const useBookmark = () => {
   const { saved, setSaved } = useSaveContext();
+  const uid = auth.currentUser.uid;
 
   const addBookmark = async (inputValue) => {
-    setSaved(!saved);
-    const uid = auth.currentUser.uid;
+    setSaved(saved);
     const docRef = collection(db, 'users', uid, 'bookmarks');
     const q = query(docRef, where('word', '==', inputValue));
     const querySnapshot = await getDocs(q);
@@ -27,7 +27,6 @@ const useBookmark = () => {
   };
 
   const removeBookmark = async (id) => {
-    const uid = auth.currentUser.uid;
     await deleteDoc(doc(db, 'users', uid, 'bookmarks', id));
   };
 
