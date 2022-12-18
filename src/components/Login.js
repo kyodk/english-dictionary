@@ -25,7 +25,6 @@ const Login = () => {
         );
       }
     } else {
-      e.preventDefault();
       e.stopPropagation();
     }
   };

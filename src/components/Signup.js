@@ -23,7 +23,6 @@ const Signup = () => {
         alert('Email address already exists');
       }
     } else {
-      e.preventDefault();
       e.stopPropagation();
     }
   };
