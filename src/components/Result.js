@@ -1,17 +1,14 @@
 import { useState, useEffect } from 'react';
 import dictionaryapi from '../api/dictionaryapi';
 import { useInputContext } from '../contexts/InputContext';
-import useGetRealtimeUpdates from '../hooks/useGetRealtimeUpdates';
 import { Container, Row, Col, Placeholder } from 'react-bootstrap';
 import ResultItem from './ResultItem';
 
 const Result = () => {
   const { inputValue } = useInputContext();
-  const { bookmarks } = useGetRealtimeUpdates();
   const [response, setResponse] = useState(null);
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
-  const [bookmarked, setbookmarked] = useState(false);
 
   const fetchData = async (word) => {
     try {
@@ -30,12 +27,7 @@ const Result = () => {
     if (inputValue.length) {
       fetchData(inputValue);
     }
-    const bookmarked = bookmarks.some(
-      (bookmark) => bookmark.word === inputValue
-    );
-    setLoading(false);
-    setbookmarked(bookmarked);
-  }, [inputValue, bookmarks]);
+  }, [inputValue]);
 
   if (loading) {
     return (
@@ -67,7 +59,7 @@ const Result = () => {
       {response && (
         <section>
           <Container className="py-5">
-            <ResultItem response={response} bookmarked={bookmarked} />
+            <ResultItem response={response} />
           </Container>
         </section>
       )}
