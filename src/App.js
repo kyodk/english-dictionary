@@ -1,11 +1,11 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { AuthContextProvider } from './contexts/AuthContext';
+import { InputContextProvider } from './contexts/InputContext';
 import Header from './components/Header';
 import Search from './components/Search';
 import BookmarkList from './components/BookmarkList';
 import Login from './components/Login';
 import Signup from './components/Signup';
-import { AuthContextProvider } from './contexts/AuthContext';
-import { InputContextProvider } from './contexts/InputContext';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
 
