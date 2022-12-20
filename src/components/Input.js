@@ -1,6 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
 import { useInputContext } from '../contexts/InputContext';
-import { useSaveContext } from '../contexts/SaveContext';
 import {
   Container,
   Row,
@@ -15,7 +14,6 @@ import dompurify from 'dompurify';
 const Input = () => {
   const [value, setValue] = useState('');
   const { inputValue, setInputValue } = useInputContext();
-  const { setSaved } = useSaveContext();
 
   const inputRef = useRef(null);
   useEffect(() => {
@@ -31,7 +29,6 @@ const Input = () => {
     if (!(value === '')) {
       setInputValue(value);
       setValue('');
-      setSaved(false);
     }
   };
 
@@ -39,7 +36,6 @@ const Input = () => {
     if (e.key === 'Enter' && !(value === '')) {
       setInputValue(value);
       setValue('');
-      setSaved(false);
     }
   };
 

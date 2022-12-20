@@ -1,4 +1,3 @@
-import { useSaveContext } from '../contexts/SaveContext';
 import { db, auth } from '../FirebaseConfig.js';
 import {
   collection,
@@ -11,10 +10,7 @@ import {
 } from 'firebase/firestore';
 
 const useBookmark = () => {
-  const { setSaved } = useSaveContext();
-
   const addBookmark = async (inputValue) => {
-    setSaved(true);
     const uid = auth.currentUser.uid;
     const docRef = collection(db, 'users', uid, 'bookmarks');
     const q = query(docRef, where('word', '==', inputValue));
@@ -28,8 +24,7 @@ const useBookmark = () => {
 
   const removeBookmark = async (id) => {
     const uid = auth.currentUser.uid;
-    deleteDoc(doc(db, 'users', uid, 'bookmarks', id));
-    await setSaved(false);
+    await deleteDoc(doc(db, 'users', uid, 'bookmarks', id));
   };
 
   return {
