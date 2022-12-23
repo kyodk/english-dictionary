@@ -23,23 +23,18 @@ const Header = () => {
               <Button variant="outline-light">Bookmarks</Button>
             </Link>
           ) : (
-            ''
+            <Link to="/signup" className="ms-auto">
+              <Button variant="outline-light">Sign Up</Button>
+            </Link>
           )}
           {user ? (
             <Button variant="outline-light ms-3" onClick={logout}>
               Log out
             </Button>
           ) : (
-            <Link to="/login" className="ms-auto">
+            <Link to="/login" className="ms-3">
               <Button variant="outline-light">Log in</Button>
             </Link>
-          )}
-          {!user ? (
-            <Link to="/signup" className="ms-3">
-              <Button variant="outline-light">Sign Up</Button>
-            </Link>
-          ) : (
-            ''
           )}
         </Container>
       </Navbar>
