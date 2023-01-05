@@ -19,22 +19,23 @@ const Header = () => {
       <Navbar bg="dark py-3">
         <Container>
           {user ? (
-            <Link to="/bookmarklist" className="ms-auto">
-              <Button variant="outline-light">Bookmarks</Button>
-            </Link>
+            <div className="ms-auto">
+              <Link to="/bookmarklist">
+                <Button variant="outline-light">Bookmarks</Button>
+              </Link>
+              <Button variant="outline-light ms-3" onClick={logout}>
+                Log out
+              </Button>
+            </div>
           ) : (
-            <Link to="/signup" className="ms-auto">
-              <Button variant="outline-light">Sign Up</Button>
-            </Link>
-          )}
-          {user ? (
-            <Button variant="outline-light ms-3" onClick={logout}>
-              Log out
-            </Button>
-          ) : (
-            <Link to="/login" className="ms-3">
-              <Button variant="outline-light">Log in</Button>
-            </Link>
+            <div className="ms-auto">
+              <Link to="/signup">
+                <Button variant="outline-light">Sign Up</Button>
+              </Link>
+              <Link to="/login">
+                <Button variant="outline-light ms-3">Log in</Button>
+              </Link>
+            </div>
           )}
         </Container>
       </Navbar>
