@@ -44,7 +44,7 @@ const Input = () => {
       <Container className="bg-dark py-5">
         <Row className="justify-content-center text-center py-5">
           <Col lg="8">
-            <h1 className="text-white mb-5">Learner's dictionary</h1>
+            <h1 className="text-white mb-5">English Dictionary</h1>
             <InputGroup size="lg" className="mb-3">
               <FormControl
                 type="search"
