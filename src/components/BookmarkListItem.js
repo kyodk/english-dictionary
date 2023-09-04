@@ -17,7 +17,7 @@ const BookmarkListItem = ({ word, id }) => {
       <div className="d-flex align-items-center justify-content-between">
         <Link
           to="/"
-          className="mb-0 link-dark"
+          className="link-dark mb-0"
           onClick={() => linkToHome(word)}
         >
           {word}

@@ -51,7 +51,7 @@ const Result = () => {
   }
 
   if (error) {
-    return <p className="py-5 text-center fs-3 fw-bold">No results found...</p>;
+    return <p className="text-center py-5 fs-3 fw-bold">No results found...</p>;
   }
 
   return (

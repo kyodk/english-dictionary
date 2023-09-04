@@ -12,8 +12,8 @@ import { BsSearch } from 'react-icons/bs';
 import dompurify from 'dompurify';
 
 const Input = () => {
-  const [value, setValue] = useState('');
   const { inputValue, setInputValue } = useInputContext();
+  const [value, setValue] = useState('');
 
   const inputRef = useRef(null);
   useEffect(() => {
@@ -49,10 +49,11 @@ const Input = () => {
               <FormControl
                 type="search"
                 placeholder="Search..."
+                name="search"
                 onChange={handleInputChange}
+                onKeyDown={handleInputKeyDown}
                 value={value}
                 ref={inputRef}
-                onKeyDown={handleInputKeyDown}
               />
               <Button variant="outline-light" onClick={handleSubmit}>
                 <BsSearch />
