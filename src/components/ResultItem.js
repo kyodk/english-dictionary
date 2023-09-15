@@ -24,12 +24,12 @@ const ResultItem = ({ response }) => {
   return (
     <Row className="justify-content-center">
       <Col lg="8">
-        <Row className="align-items-center">
+        <Row>
           <Col>
             <h2 className="mb-3">{response[0].word}</h2>
           </Col>
           {user ? (
-            <Col sm="auto" className="fs-4">
+            <Col className="fs-4 text-end">
               {bookmarked ? (
                 <BsBookmarkHeartFill />
               ) : (
